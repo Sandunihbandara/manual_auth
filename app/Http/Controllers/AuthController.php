@@ -24,8 +24,10 @@ class AuthController extends Controller
         // 1) Validate
         $validated = $request->validate([
             'name' => ['required','string','max:255'],
-            'email' => ['required','email','max:255','unique:users,email'],
+            'email' => ['required','string','email','max:255','unique:users,email','ends_with:cmb.ac.lk'],
             'password' => ['required','string','min:8','confirmed'], // needs password_confirmation
+        ],[
+            'email.ends_with' => 'Please use a university email that ends with cmb.ac.lk',
         ]);
 
         // 2) Create user with hashed password

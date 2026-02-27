@@ -9,9 +9,10 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+<body class="min-h-screen flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat"
+      style="background-image: url('{{ asset('images/university.jpeg') }}');">
 
-  <div class="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl p-8 text-white">
+  <div class="relative w-full max-w-md bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-8 text-white">
 
     <h1 class="text-3xl font-bold">Welcome back</h1>
     <p class="text-white/70 mt-1">Login to your account.</p>
