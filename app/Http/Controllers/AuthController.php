@@ -25,16 +25,25 @@ class AuthController extends Controller
         $validated = $request->validate([
             'name' => ['required','string','max:255'],
             'email' => ['required','string','email','max:255','unique:users,email','ends_with:cmb.ac.lk'],
+            'role' => ['required','in:user,staff'],
+            'department' => ['required','in:ICT,IAT,ET,AT'],
+            'phone' => ['required','string','max:20','regex:/^[0-9+\-\s]{7,20}$/'],
             'password' => ['required','string','min:8','confirmed'], // needs password_confirmation
         ],[
             'email.ends_with' => 'Please use a university email that ends with cmb.ac.lk',
+            'role.in' => 'Role must be user or staff.',
+            'department.in' => 'Choose a valid department.',
+            'phone.regex' => 'Enter a valid contact number.',
         ]);
 
         // 2) Create user with hashed password
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'password' => $validated['password'],
+            'role' => $validated['role'],
+            'department' => $validated['department'],
+            'phone' => $validated['phone'],
+            'password' => $validated['password'], // hash password before saving    
         ]);
 
         // 3) Log in user

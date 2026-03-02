@@ -12,6 +12,34 @@
 <body class="min-h-screen flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat"
       style="background-image: url('{{ asset('images/university.jpeg') }}');">
 
+      
+  <!-- Navbar -->
+  <nav class="absolute top-0 left-0 w-full px-8 py-4 flex justify-between items-center bg-black/70 backdrop-blur-md border-b border-white/10">
+
+    <!-- Logo + Project Name -->
+    <div class="flex items-center gap-3 text-white text-xl font-bold">
+
+        <!-- University Logo Image -->
+        <img src="{{ asset('images/unilogo.png') }}" 
+             alt="University Logo"
+             class="w-10 h-10 object-contain">
+
+        AcademiCore
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="flex gap-6 text-white/80 font-medium">
+        <a href="{{ route('login.show') }}" class="hover:text-indigo-400 transition">
+            Login
+        </a>
+        <a href="{{ route('register.show') }}" class="hover:text-indigo-400 transition">
+            Register
+        </a>
+    </div>
+
+  </nav>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
   <div class="relative w-full max-w-md bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-8 text-white">
 
     <h1 class="text-3xl font-bold">Welcome back</h1>
