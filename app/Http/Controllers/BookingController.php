@@ -6,9 +6,23 @@ use App\Models\Booking;
 use App\Models\Instrument;
 use App\Models\MaintenanceSchedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class BookingController extends Controller
 {
+
+    public function create(Instrument $instrument)
+    {
+    $approved = Booking::where('instrument_id', $instrument->id)
+        ->where('status', 'approved')
+        ->where('end_at', '>=', now())
+        ->orderBy('start_at')
+        ->get(['start_at','end_at']);
+
+    return view('bookings.create', compact('instrument', 'approved'));
+    }
+
+
     // user creates a booking request
     public function store(Request $request)
     {
@@ -16,10 +30,30 @@ class BookingController extends Controller
         $user = $request->user();
 
         $validated = $request->validate([
-            'instrument_id' => ['required','integer','exists:instruments,id'],
+            'instrument_id' => ['required','exists:instruments,id'],
             'start_at' => ['required','date','after_or_equal:now'],
             'end_at' => ['required','date','after:start_at'],
         ]);
+        // Convert to Carbon instances for easier comparison
+        $start = Carbon::parse($validated['start_at']);
+        $end   = Carbon::parse($validated['end_at']);
+
+        // ✅ Check conflict ONLY against APPROVED bookings
+        $hasConflict = Booking::where('instrument_id', $validated['instrument_id'])
+        ->where('status', 'approved')
+        ->where('start_at', '<', $end)   // existing starts before new ends
+        ->where('end_at',   '>', $start) // existing ends after new starts
+        ->exists();
+
+        if ($hasConflict) {
+        return back()
+        ->withErrors([
+            'start_at' => 'This instrument is already approved for the selected time slot. Please choose another time or another instrument.',
+        ])
+        ->withInput();
+        }
+
+       
 
         $instrument = Instrument::findOrFail($validated['instrument_id']);
 
@@ -65,6 +99,9 @@ class BookingController extends Controller
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Booking request submitted (pending approval).');
+
+
+         
     }
 
     public function myBookings(Request $request)
@@ -79,9 +116,6 @@ class BookingController extends Controller
     return view('bookings.mine', compact('bookings'));
     }
 
-    public function create(Instrument $instrument)
-    {
-    return view('bookings.create', compact('instrument'));
-    }
+    
 
 }
