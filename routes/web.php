@@ -63,3 +63,22 @@ Route::get('/instruments/{instrument}/book', [BookingController::class, 'create'
 Route::post('/bookings', [BookingController::class, 'store'])
     ->middleware('auth')
     ->name('bookings.store');
+
+Route::get('/help', function () {
+    return view('help.index');
+})->middleware('auth')->name('help.index');
+
+
+Route::middleware(['auth','role:admin'])->group(function () {
+    Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+    Route::get('/admin/bookings', [AdminBookingController::class, 'index'])->name('admin.bookings.index');
+});
+
+Route::middleware(['auth','role:staff,admin'])->group(function () {
+    Route::get('/approvals', [ApprovalController::class, 'index'])->name('approvals.index');
+});
+
+Route::get('/', function () {
+    return view('auth.login');
+});
+

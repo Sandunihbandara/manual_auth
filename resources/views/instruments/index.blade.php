@@ -2,9 +2,32 @@
 
 @section('title', 'Instruments')
 
+
 @section('content')
   <div class="flex items-center justify-between mb-6">
     <h1 class="text-2xl font-bold">Instruments</h1>
+
+
+    <form method="GET" action="{{ route('instruments.index') }}" class="mb-6 flex gap-2">
+  <input
+    name="search"
+    value="{{ $search ?? '' }}"
+    placeholder="Search instruments..."
+    class="flex-1 rounded-xl bg-white/10 border border-white/10 px-4 py-3 text-white placeholder:text-white/40 outline-none focus:ring-2 focus:ring-indigo-400"
+  >
+  <button class="rounded-xl bg-indigo-500 hover:bg-indigo-600 transition font-semibold px-5">
+    Search
+  </button>
+
+  @if(!empty($search))
+    <a href="{{ route('instruments.index') }}"
+       class="rounded-xl bg-white/10 hover:bg-white/15 transition border border-white/10 font-semibold px-5 flex items-center">
+      Clear
+    </a>
+  @endif
+</form>
+
+
 
     @if($user->role === 'admin')
       <a href="#" class="px-4 py-2 rounded-xl bg-indigo-500 hover:bg-indigo-600 transition font-semibold">

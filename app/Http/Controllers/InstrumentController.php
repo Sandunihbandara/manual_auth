@@ -18,10 +18,16 @@ class InstrumentController extends Controller
             $query->where('department', $user->department);
         }
 
+        // Search by instrument name
+        $search = $request->string('search')->trim()->toString();
+        if ($search !== '') {
+        $query->where('name', 'like', "%{$search}%");
+        }
+
         // Admin sees all instruments (no filter)
 
         $instruments = $query->orderBy('name')->get();
 
-        return view('instruments.index', compact('instruments', 'user'));
+        return view('instruments.index', compact('instruments', 'user','search'));
     }
 }

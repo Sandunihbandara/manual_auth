@@ -47,19 +47,42 @@
 
     {{-- Quick actions --}}
     <div class="bg-black/30 border border-white/10 rounded-2xl p-5">
-      <div class="text-white/80 font-semibold">Quick Actions</div>
-      <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <a href="{{ route('instruments.index') }}" class="rounded-xl bg-indigo-500 hover:bg-indigo-600 transition px-4 py-3 font-semibold text-center">
-          Browse Instruments
-        </a>
-        <a href="{{ route('bookings.mine') }}" class="rounded-xl bg-indigo-500 hover:bg-indigo-600 transition px-4 py-3 font-semibold text-center">
-          My Bookings
-        </a>
-        <a href="#" class="rounded-xl bg-indigo-500 hover:bg-indigo-600 transition px-4 py-3 font-semibold text-center">
-          Help & Support
-        </a>
-      </div>
-    </div>
+  <div class="text-white/80 font-semibold">Quick Actions</div>
+
+  {{-- Search instruments --}}
+  <form method="GET" action="{{ route('instruments.index') }}" class="mt-4 flex gap-2">
+    <input
+      name="search"
+      value="{{ request('search') }}"
+      placeholder="Search instruments by name (e.g., meter, oscilloscope)"
+      class="flex-1 rounded-xl bg-white/10 border border-white/10 px-4 py-3 text-white placeholder:text-white/40 outline-none focus:ring-2 focus:ring-indigo-400"
+    >
+    <button
+      class="rounded-xl bg-indigo-500 hover:bg-indigo-600 transition font-semibold px-5"
+      type="submit"
+    >
+      Search
+    </button>
+  </form>
+
+  {{-- Buttons --}}
+  <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <a href="{{ route('instruments.index') }}"
+       class="rounded-xl bg-indigo-500 hover:bg-indigo-600 transition px-4 py-3 font-semibold text-center">
+      Browse Instruments
+    </a>
+
+    <a href="{{ route('bookings.mine') }}"
+       class="rounded-xl bg-white/10 hover:bg-white/15 transition border border-white/10 px-4 py-3 font-semibold text-center">
+      My Bookings
+    </a>
+
+    <a href="{{ route('help.index') }}"
+       class="rounded-xl bg-white/10 hover:bg-white/15 transition border border-white/10 px-4 py-3 font-semibold text-center">
+      Help & Support
+    </a>
+  </div>
+  </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
       {{-- Upcoming --}}
